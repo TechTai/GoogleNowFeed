@@ -13,19 +13,22 @@ import retrofit2.http.Url;
  */
 
 public interface MovieService {
+    @GET
+    Call<MovieResponse> getMovieResponsePages(@Url String path);
 
-    @GET("movie/popular?api_key=190c81246de77ceb919643aff221e54d")
-    Call<MovieResponse> getMovieResponse();
+    //https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
+    //https://api.themoviedb.org/3/search/movie?api_key=###&query=tron
+    @GET
+    Call<MovieResponse> getMovieSearchResponse(@Url String pathSearch);
 
-
-    @GET("genre/movie/List?api_key=190c81246de77ceb919643aff221e54d")
 
     //https://api.themoviedb.org/3/genre/movie/list?api_key=190c81246de77ceb919643aff221e54d
+    @GET("genre/movie/List?api_key=190c81246de77ceb919643aff221e54d")
     Call<MovieGenre> getMovieGenre();
-    //
+
+
     @GET("movie/top_rated?api_key=190c81246de77ceb919643aff221e54d")
     Call<MovieResponse> getTopRatedMovies();
 
-    @GET
-    Call<MovieResponse> getMovieResponsePages(@Url String path);
+
 }
