@@ -48,6 +48,9 @@
                 android:paddingTop="10dp"
                 android:rating="2"
                 android:numStars="5"
+                android:clickable="false"
+                android:isIndicator="true"
+                android:focusable="false"
                 android:theme="@style/RatingBarTheme"/>
 
         </RelativeLayout>

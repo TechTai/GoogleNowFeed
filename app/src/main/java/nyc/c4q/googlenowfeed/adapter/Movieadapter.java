@@ -1,5 +1,6 @@
 package nyc.c4q.googlenowfeed.adapter;
 
+import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,11 @@ public class Movieadapter extends RecyclerView.Adapter<MovieHolder> {
     public int getItemCount() {
 
         return null != movieList ? movieList.size() : 0;
+    }
+    public void setFilter(List<Movies> newMovieList){
+        movieList=new ArrayList<>();
+        movieList.addAll(newMovieList);
+        notifyDataSetChanged();
     }
 
 
