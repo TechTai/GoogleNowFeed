@@ -20,6 +20,7 @@ public class Movies {
     private String overview;
     private String release_date;
     private ArrayList<MovieGenre> genres;
+    private MovieMoreInfo moreInfo;
 
 
 
@@ -97,7 +98,8 @@ public class Movies {
     }
 
     public String getBackdropPath() {
-        return this.backdrop_path;
+        String backPath = "https://image.tmdb.org/t/p/w500" + backdrop_path;
+        return backPath;
     }
 
     public void setBackdropPath(String backdrop_path) {
@@ -126,5 +128,14 @@ public class Movies {
 
     public void setGenres(ArrayList<MovieGenre> genres) {
         this.genres = genres;
+    }
+
+
+    public MovieMoreInfo getMoreInfo() {
+        return moreInfo;
+    }
+
+    public void setMoreInfo(MovieMoreInfo moreInfo) {
+        this.moreInfo = moreInfo;
     }
 }
