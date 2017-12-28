@@ -1,6 +1,5 @@
-package nyc.c4q.googlenowfeed;
+package nyc.c4q.googlenowfeed.activities;
 
-import android.graphics.Movie;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,9 +20,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import nyc.c4q.googlenowfeed.R;
 import nyc.c4q.googlenowfeed.adapter.EndlessRecyclerViewScrollListener;
 import nyc.c4q.googlenowfeed.adapter.Movieadapter;
 import nyc.c4q.googlenowfeed.api.MovieService;
+import nyc.c4q.googlenowfeed.model.MovieMoreInfo;
 import nyc.c4q.googlenowfeed.model.MovieResponse;
 import nyc.c4q.googlenowfeed.model.Movies;
 import retrofit2.Call;
@@ -31,6 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Url;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private String pathUrl;
 
     private List<Movies> moviesList = new ArrayList<>();
+    private List<MovieMoreInfo> movieMoreInfo = new ArrayList<>();
     private boolean isLoading = false;
 
     @Override
@@ -64,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 swipeLayout.setRefreshing(false);
             }
         });
-
-
 
 
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -135,6 +136,30 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         });
     }
 
+    //
+    public void getMoreInfo(int movieId) {
+        pathUrl = ("movie/" + movieId + "?api_key=190c81246de77ceb919643aff221e54d");
+        Log.d(TAG, "getMoreInfo:  <<<< has been calling >>>>");
+        Log.d(TAG, "getMoreInfo: " + pathUrl);
+        movieRetrofit();
+        Call<MovieMoreInfo> callInfo = service.getMoreInfo(pathUrl);
+        Log.d(TAG, "getMoreInfo: " + callInfo.toString());
+        callInfo.enqueue(new Callback<MovieMoreInfo>() {
+            @Override
+            public void onResponse(Call<MovieMoreInfo> call, Response<MovieMoreInfo> response) {
+                movieMoreInfo.add(response.body());
+                Log.d(TAG, "onResponse: <<< size: " + movieMoreInfo.size() + " >>>");
+            }
+
+            @Override
+            public void onFailure(Call<MovieMoreInfo> call, Throwable t) {
+                Log.d(TAG, "onFailure:calling movieMoreInfo ");
+            }
+        });
+    }
+
+    //
+
     private void setup() {
         swipeLayout = findViewById(R.id.main_content);
         itemProgressbar = findViewById(R.id.item_progress_bar);
@@ -169,10 +194,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         newText = newText.toLowerCase();
-        if(!newText.isEmpty()) {
+        if (!newText.isEmpty()) {
             getUserSearch(newText);
-        }
+        } else {
+            moviesList = new ArrayList<>();
+            getUserMoviePages(pageNumber);
 
+        }
 
 
         return true;
@@ -186,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                moviesList=new ArrayList<>();
+                moviesList = new ArrayList<>();
                 moviesList = response.body().getResults();
                 movieadapter.setFilter(moviesList);
 

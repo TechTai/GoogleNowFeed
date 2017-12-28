@@ -37,21 +37,23 @@
 
             <android.support.v7.widget.AppCompatRatingBar
                 android:id="@+id/rating_bar"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_title"
+                android:layout_centerInParent="true"
+                android:clickable="false"
+                android:focusable="false"
                 android:gravity="center"
+                android:isIndicator="true"
+                android:numStars="5"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:rating="2"
-                android:numStars="5"
-                android:clickable="false"
-                android:isIndicator="true"
-                android:focusable="false"
-                android:theme="@style/RatingBarTheme"/>
+                android:theme="@style/RatingBarTheme" />
+
+
 
         </RelativeLayout>
 
