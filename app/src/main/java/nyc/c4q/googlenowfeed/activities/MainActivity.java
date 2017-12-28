@@ -1,5 +1,6 @@
 package nyc.c4q.googlenowfeed.activities;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -47,10 +48,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private MovieService service;
     private int pageNumber = 1;
     private String pathUrl;
-
     private List<Movies> moviesList = new ArrayList<>();
-    private List<MovieMoreInfo> movieMoreInfo = new ArrayList<>();
     private boolean isLoading = false;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +86,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void initApp() {
         setup();
         movieRetrofit();
-
+         intent = new Intent(MainActivity.this, DetailActivity.class);
         movieadapter = new Movieadapter(moviesList);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(movieadapter);
+
     }
 
     private void updateTheList(boolean isLoading) {
@@ -147,8 +148,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         callInfo.enqueue(new Callback<MovieMoreInfo>() {
             @Override
             public void onResponse(Call<MovieMoreInfo> call, Response<MovieMoreInfo> response) {
-                movieMoreInfo.add(response.body());
-                Log.d(TAG, "onResponse: <<< size: " + movieMoreInfo.size() + " >>>");
+                MovieMoreInfo movieMoreInfo = response.body();
+                Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getRuntime());
+                Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getPopularity());
+                Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getGenres().get(0).getName());
+
+//                intent.putExtra("duration", movieMoreInfo.getRuntime());
+//                intent.putExtra("popularity", movieMoreInfo.getPopularity());
+//                intent.putExtra("genre", movieMoreInfo.getGenres());
+//                getApplicationContext().startActivity(intent);
+
             }
 
             @Override
@@ -156,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 Log.d(TAG, "onFailure:calling movieMoreInfo ");
             }
         });
+
     }
 
     //

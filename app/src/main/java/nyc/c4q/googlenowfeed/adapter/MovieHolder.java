@@ -59,10 +59,7 @@ class MovieHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("rating", movie.getVoteAverage());
                 intent.putExtra("overView", movie.getOverview());
                 new MainActivity().getMoreInfo(movie.getId());
-//                Log.d(TAG, "onClick: "+movie.getMoreInfo().getRuntime());
-//                intent.putExtra("duration", movie.getMoreInfo().getRuntime());
-//                intent.putExtra("popularity", movie.getMoreInfo().getPopularity());
-//                intent.putExtra("genre", movie.getMoreInfo().getGenres());
+
 
                 view.getContext().startActivity(intent);
 
