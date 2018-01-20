@@ -28,8 +28,8 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.DetailTheme);
         setContentView(R.layout.activity_detail);
-
         setupView();
         setupDate();
 
@@ -43,26 +43,25 @@ public class DetailActivity extends AppCompatActivity {
             String image = getIntent().getExtras().getString("movieImage");
             String circuleImage = getIntent().getExtras().getString("circleImage");
             String relase = getIntent().getExtras().getString("relase");
-            String rating = getIntent().getExtras().getString("rating");
-           // String durationtTime = getIntent().getExtras().getString("duration");
-           // double popularityNum = getIntent().getExtras().getDouble("popularity");
+            double rating = getIntent().getExtras().getDouble("rating");
+            String durationtTime = getIntent().getExtras().getString("duration");
+            double popularityNum = getIntent().getExtras().getDouble("popularity");
             String overViewStory = getIntent().getExtras().getString("overView");
           //  ArrayList<Genre> genreList = (ArrayList<Genre>) getIntent().getSerializableExtra("genre");
             nameOfMovie.setText(name);
             Picasso.with(this).load(image).into(movieImage);
             Picasso.with(this).load(circuleImage).into(movieCirculeImgae);
             releaseDate.setText(relase);
-            userRating.setText(rating);
-           // duration.setText(durationtTime);
-           // popularity.setText(""+(popularityNum * 100));
+            userRating.setText("" + rating);
+            duration.setText(durationtTime);
+            popularity.setText("" + (popularityNum * 100));
             overView.setText(overViewStory);
-            /*
-            String nameGen = "";
-            for (int i = 0; i < genreList.size(); i++) {
-                nameGen = nameGen + "," + genreList.get(i).getName();
-            }
-            genre.setText(nameGen);
-            */
+
+//            String nameGen = "";
+//            for (int i = 0; i < genreList.size(); i++) {
+//                nameGen = nameGen + "," + genreList.get(i).getName();
+//            }
+//            genre.setText(nameGen);
 
 
         } else {

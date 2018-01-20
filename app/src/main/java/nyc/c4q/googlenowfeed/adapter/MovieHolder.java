@@ -50,22 +50,8 @@ class MovieHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "You clicked " + movie.getTitle(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                intent.putExtra("title", movie.getTitle());
-                intent.putExtra("movieImage", movie.getBackdropPath());
-                intent.putExtra("circleImage", movie.getPosterPath());
-                intent.putExtra("relase", movie.getReleaseDate());
-                intent.putExtra("rating", movie.getVoteAverage());
-                intent.putExtra("overView", movie.getOverview());
-                new MainActivity().getMoreInfo(movie.getId());
-//                Log.d(TAG, "onClick: "+movie.getMoreInfo().getRuntime());
-//                intent.putExtra("duration", movie.getMoreInfo().getRuntime());
-//                intent.putExtra("popularity", movie.getMoreInfo().getPopularity());
-//                intent.putExtra("genre", movie.getMoreInfo().getGenres());
-
-                view.getContext().startActivity(intent);
-
+               MainActivity main= (MainActivity) itemView.getContext();
+               main.getMoreInfo(movies);// that's the name of your method in the MainActivity
 
             }
         });
