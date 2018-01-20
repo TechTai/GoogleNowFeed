@@ -1,6 +1,7 @@
 package nyc.c4q.googlenowfeed.activities;
 
 import android.content.Intent;
+import android.graphics.Movie;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void initApp() {
         setup();
         movieRetrofit();
-         intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent = new Intent(MainActivity.this, DetailActivity.class);
         movieadapter = new Movieadapter(moviesList);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(movieadapter);
@@ -138,25 +139,39 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     //
-    public void getMoreInfo(int movieId) {
-        pathUrl = ("movie/" + movieId + "?api_key=190c81246de77ceb919643aff221e54d");
+    public void getMoreInfo(final Movies movie) {
+//        pathUrl = ("");
         Log.d(TAG, "getMoreInfo:  <<<< has been calling >>>>");
         Log.d(TAG, "getMoreInfo: " + pathUrl);
         movieRetrofit();
-        Call<MovieMoreInfo> callInfo = service.getMoreInfo(pathUrl);
+        Call<MovieMoreInfo> callInfo = service.getMoreInfo(movie.getId());
         Log.d(TAG, "getMoreInfo: " + callInfo.toString());
         callInfo.enqueue(new Callback<MovieMoreInfo>() {
             @Override
             public void onResponse(Call<MovieMoreInfo> call, Response<MovieMoreInfo> response) {
+
+
                 MovieMoreInfo movieMoreInfo = response.body();
                 Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getRuntime());
                 Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getPopularity());
-                Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getGenres().get(0).getName());
+             //   Log.d(TAG, "onClick:MainActivity " + movieMoreInfo.getGenres().get(0).getName());
 
-//                intent.putExtra("duration", movieMoreInfo.getRuntime());
-//                intent.putExtra("popularity", movieMoreInfo.getPopularity());
-//                intent.putExtra("genre", movieMoreInfo.getGenres());
-//                getApplicationContext().startActivity(intent);
+
+//                Toast.makeText(view.getContext(), "You clicked " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra("title", movie.getTitle());
+                intent.putExtra("movieImage", movie.getBackdropPath());
+                intent.putExtra("circleImage", movie.getPosterPath());
+                intent.putExtra("relase", movie.getReleaseDate());
+                intent.putExtra("rating", movie.getVoteAverage());
+                intent.putExtra("overView", movie.getOverview());
+                intent.putExtra("duration", movieMoreInfo.getRuntime());
+                intent.putExtra("popularity", movieMoreInfo.getPopularity());
+
+
+        //       intent.putExtra("genres", movieMoreInfo.getGenres());
+                 startActivity(intent);
+
 
             }
 
